@@ -6,7 +6,7 @@ const instance = axios.create({
   
 })
 
-export const fetchProductsByQuery = async (query='', page) => {
+export const fetchProductsByQuery = async (query='', page=1) => {
 
     const {data}  = await instance.get('/search/photos',{
       params: {

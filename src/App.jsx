@@ -13,7 +13,7 @@ function App() {
   const [images, setImages] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState (1)
   const [maxPage, setMaxPage] = useState(null)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalImage, setModalImage] = useState({});
@@ -24,6 +24,7 @@ const handleSearch= async (topic, currentPage)=>{
     try {
       setIsLoading(true);
       const data = await fetchProductsByQuery(topic, currentPage);
+      console.log('currentPage: ', currentPage);
       setImages((prevImages) => {
         if (prevImages) {
           return [...prevImages, ...data.results];
@@ -40,11 +41,9 @@ const handleSearch= async (topic, currentPage)=>{
       setIsLoading(false);
     }
   }
-const handleLoadMore = () => {
-  const nextPage = currentPage + 1;
-  handleSearch(topic, nextPage)
-};
-
+  const handleLoadMore = () => {
+    setCurrentPage(currentPage + 1);
+  }
 
 function openModal(id) {
   setIsOpen(true);
@@ -59,10 +58,10 @@ function closeModal() {
     <>
     <SearchBar onSearch={handleSearch} />
     {isLoading && <Loader />}
-    <ImageGallery image = {images}/>
+    <ImageGallery images = {images} openModal={openModal}/>
     {isError && <ErrorMessage />}
-    {(currentPage > 1 && currentPage < maxPage) && <LoadMoreBtn onLoadMore={handleLoadMore}/>}
-    {(modalIsOpen)&&<ImageModal openModal={openModal} closeModal={closeModal} modalImage={modalImage}/>}
+    {currentPage >= 1 && currentPage < maxPage && maxPage !== null && <LoadMoreBtn onLoadMore={handleLoadMore}/>}
+    {(modalIsOpen)&&<ImageModal modalIsOpen={modalIsOpen} closeModal={closeModal} modalImage={modalImage}/>}
 
     </>
   )
