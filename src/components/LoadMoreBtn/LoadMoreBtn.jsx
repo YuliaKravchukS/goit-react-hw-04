@@ -1,7 +1,9 @@
 
 const LoadMoreBtn = () => {
   return (
-    <div>LoadMoreBtn</div>
+    <div>
+      <button type="button">Load more</button>
+    </div>
   )
 }
 

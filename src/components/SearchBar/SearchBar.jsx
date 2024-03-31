@@ -1,16 +1,22 @@
+import toast, { Toaster } from 'react-hot-toast';
 
-const SearchBar = ({onSubmit}) => {
+
+const SearchBar = ({onSearch}) => {
  
     const handleSubmit=(e)=> {
         e.preventDefault();
         const searchForm = e.target.elements.searchForm.value;
-        setInput(searchForm);
+        if(searchForm.trim() === '') {
+          
+          return toast.error('Please enter search term!')
+        }
+        onSearch(searchForm);
       }
   
   return (
     
     <header>
-  <form onSubmit={onSubmit}>
+  <form onSubmit={handleSubmit}>
     <input
       type="text"
       autoComplete="off"
@@ -21,6 +27,7 @@ const SearchBar = ({onSubmit}) => {
     />
     <button type="submit">Search</button>
   </form>
+  <Toaster  position="top-center"  reverseOrder={true} />
 </header>
 
 
