@@ -1,8 +1,9 @@
-header{
-    background-color: blue;
-    height: 40px;
+.header{
+    background-color: rgb(5, 5, 53);
+    height: 30px;
     width: 100%;
     padding: 20px;
+    margin-bottom: 40px;
  
 }
 form{

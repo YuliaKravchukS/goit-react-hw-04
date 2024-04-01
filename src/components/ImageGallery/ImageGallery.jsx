@@ -6,7 +6,7 @@ const ImageGallery = ({images, openModal}) => {
         {Array.isArray(images)&&
         images.map((image) => {
         return (
-            <li key={image.id}>
+            <li key={image.id} className={css.li}>
 		<ImageCard image={image} openModal={openModal}/>
  
 	</li>

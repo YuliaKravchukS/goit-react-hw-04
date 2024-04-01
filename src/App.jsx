@@ -23,7 +23,6 @@ useEffect(()=>{
     try {
       setIsLoading(true);
       const data = await fetchProductsByQuery(query, currentPage);
-      console.log('currentPage: ', currentPage);
       setImages((prevImages) => {
         if (prevImages) {
           return [...prevImages, ...data.results];
@@ -47,7 +46,9 @@ useEffect(()=>{
   };
 
   const handleLoadMore = () => {
+    
     setCurrentPage(currentPage + 1);
+    
   }
 
 function openModal(id) {
@@ -61,11 +62,11 @@ function closeModal() {
 
   return (
     <>
-    <SearchBar onSearch={handleSearch} />
-    {isLoading && <Loader />}
+    <SearchBar onSearch={handleSearch} />   
     <ImageGallery images = {images} openModal={openModal}/>
-    {isError && <ErrorMessage />}
+    {isError && <ErrorMessage />}    
     {currentPage >= 1 && currentPage < maxPage && maxPage !== null && <LoadMoreBtn onLoadMore={handleLoadMore}/>}
+    {isLoading && <Loader />}
     {(modalIsOpen)&&<ImageModal modalIsOpen={modalIsOpen} closeModal={closeModal} modalImage={modalImage}/>}
 
     </>
