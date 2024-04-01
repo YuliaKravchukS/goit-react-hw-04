@@ -9,7 +9,7 @@ import SearchBar from './components/SearchBar/SearchBar'
 import { fetchProductsByQuery } from './services/Articles-API/articles-api';
 
 function App() {
-
+  const [query, setQuery] = useState("");
   const [images, setImages] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -18,12 +18,11 @@ function App() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalImage, setModalImage] = useState({});
 
-
-const handleSearch= async (topic, currentPage)=>{
-
+useEffect(()=>{
+  async function fetchSearch(){
     try {
       setIsLoading(true);
-      const data = await fetchProductsByQuery(topic, currentPage);
+      const data = await fetchProductsByQuery(query, currentPage);
       console.log('currentPage: ', currentPage);
       setImages((prevImages) => {
         if (prevImages) {
@@ -41,6 +40,12 @@ const handleSearch= async (topic, currentPage)=>{
       setIsLoading(false);
     }
   }
+  fetchSearch();
+  },[query, currentPage])
+  const handleSearch = (searchTerm) => {
+    setQuery(searchTerm);
+  };
+
   const handleLoadMore = () => {
     setCurrentPage(currentPage + 1);
   }
