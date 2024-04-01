@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import Loader from './components/Loader/Loader'
 import ImageGallery from './components/ImageGallery/ImageGallery'
@@ -17,8 +17,10 @@ function App() {
   const [maxPage, setMaxPage] = useState(null)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalImage, setModalImage] = useState({});
+  const btnRef = useRef(null)
 
 useEffect(()=>{
+  if (!query) return;
   async function fetchSearch(){
     try {
       setIsLoading(true);
@@ -48,8 +50,11 @@ useEffect(()=>{
   const handleLoadMore = () => {
     
     setCurrentPage(currentPage + 1);
-    
+      
   }
+  // const handleLoadScroll=()=>{
+  //   // btnRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+  // }
 
 function openModal(id) {
   setIsOpen(true);
@@ -65,7 +70,7 @@ function closeModal() {
     <SearchBar onSearch={handleSearch} />   
     <ImageGallery images = {images} openModal={openModal}/>
     {isError && <ErrorMessage />}    
-    {currentPage >= 1 && currentPage < maxPage && maxPage !== null && <LoadMoreBtn onLoadMore={handleLoadMore}/>}
+    {currentPage >= 1 && currentPage < maxPage && maxPage !== null && <LoadMoreBtn rel={btnRef} onLoadMore={handleLoadMore} />}
     {isLoading && <Loader />}
     {(modalIsOpen)&&<ImageModal modalIsOpen={modalIsOpen} closeModal={closeModal} modalImage={modalImage}/>}
 

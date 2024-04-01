@@ -12,6 +12,7 @@ const SearchBar = ({onSearch}) => {
           return toast.error('Please enter search term!')
         }
         onSearch(searchForm);
+        e.target.reset()
       }
   
   return (
