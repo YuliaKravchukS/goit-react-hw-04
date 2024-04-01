@@ -18,6 +18,7 @@ function App() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalImage, setModalImage] = useState({});
   const btnRef = useRef(null)
+  const [prevQuery, setPrevQuery] = useState("");
 
 useEffect(()=>{
   if (!query) return;
@@ -25,14 +26,17 @@ useEffect(()=>{
     try {
       setIsLoading(true);
       const data = await fetchProductsByQuery(query, currentPage);
-      setImages((prevImages) => {
-        if (prevImages) {
+      
+
+       setImages((prevImages) => {
+        if (prevImages && query === prevQuery || currentPage !== 1) {
           return [...prevImages, ...data.results];
         } else {
           return [...data.results];
         }
-        
-      });
+      })
+    
+
       setMaxPage(data.total_pages);
       setCurrentPage(currentPage);
     } catch (error) {
@@ -43,8 +47,12 @@ useEffect(()=>{
   }
   fetchSearch();
   },[query, currentPage])
+
+
   const handleSearch = (searchTerm) => {
+    setPrevQuery(query)
     setQuery(searchTerm);
+    setCurrentPage(1)
   };
 
   const handleLoadMore = () => {
